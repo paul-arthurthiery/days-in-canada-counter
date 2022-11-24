@@ -48,6 +48,7 @@ const App = () => {
 			.then((allResidencyInfo: AllResidencyInfo & {ok: boolean}) => allResidencyInfo.ok ? updateAllResidencyInfo(allResidencyInfo) : setInCanada(!entry))
 			.catch(() => setInCanada(!entry))
 	};
+  const soonestTimestampCitizen = Math.max(new Date(residencyDate).getTime()+730*ONE_DAY, Date.now()+(1095-citizenshipDays)*ONE_DAY);
   return (
     <div className="App">
     	<h1>Immigration Status Day Counter</h1>
@@ -56,7 +57,7 @@ const App = () => {
     	<ProgressBar animated now={(residencyDays/neededDaysResidency)*100} label={`${Math.floor((residencyDays/neededDaysResidency)*100)}%`} />
     	<p>Citizenship Progress: {citizenshipDays} days</p>
     	<ProgressBar animated now={(citizenshipDays/neededDaysCitizenship)*100} label={`${Math.floor((citizenshipDays/neededDaysCitizenship)*100)}%`} />
-    	{!!residencyDate && <p>Soonest date to become citizen: {new Date(residencyDate+Math.max(730, 1095-citizenshipDays)*ONE_DAY).toISOString().substring(0, 10)} </p>}
+    	{!!residencyDate && <p>Soonest date to become citizen: {new Date(soonestTimestampCitizen).toISOString().substring(0, 10)} </p>}
     	{inCanada !== null && (<p>
       	<span>Currently {!inCanada && "not"} in Canada {inCanada ? "🇨🇦" : "🌴"}</span>
 				{inCanada
