@@ -7,7 +7,9 @@
     "esModuleInterop": true,
     "lib": [
       "ESNext",
-    ]
+    ],
+    "allowJs": false,
+    "outDir": "../build"
   },
   "include": [
     "./",

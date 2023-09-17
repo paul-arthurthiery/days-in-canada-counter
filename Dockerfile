@@ -8,4 +8,4 @@ COPY . .
 RUN npm run build-frontend
 RUN npm run build-backend
 EXPOSE 3000
-CMD [ "node", "index.js" ]
+CMD [ "node", "build/index.js" ]
