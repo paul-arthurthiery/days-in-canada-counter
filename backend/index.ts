@@ -32,10 +32,10 @@ const loadEntriesAndExits = async () => {
 
 app.use(express.json())
 app.use(cors({ origin: '*' }));
-app.use(express.static(url.fileURLToPath(new URL('./build', import.meta.url))))
+app.use(express.static(url.fileURLToPath(new URL('../build', import.meta.url))))
 
 app.get("/", (_, res) => {
-	res.sendFile(url.fileURLToPath(new URL('./build/index.html', import.meta.url)));
+	res.sendFile(url.fileURLToPath(new URL('../build/index.html', import.meta.url)));
 });
 
 app.post("/entry", async (req: Request<{}, {}, { date: string }>, res) => {

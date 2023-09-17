@@ -8,5 +8,9 @@ export default defineConfig({
     server: {
         open: true,
     },
-    root: './src'
+    root: './src',
+    build: {
+        outDir: '../build',
+        emptyOutDir: true,
+    },
 });
