@@ -21,7 +21,7 @@ export interface AllResidencyInfo {
 
 
 // Configure lowdb to write to JSONFile
-const adapter = new JSONFile<EntryExitDB>(url.fileURLToPath(new URL('../days-in-canada.json', import.meta.url)));
+const adapter = new JSONFile<EntryExitDB>(url.fileURLToPath(new URL('../config/days-in-canada.json', import.meta.url)));
 const db = new Low<EntryExitDB>(adapter);
 
 const loadEntriesAndExits = async () => {
