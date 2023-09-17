@@ -7,12 +7,11 @@
   "author": "paul-arthurthiery",
   "license": "Beerware",
   "scripts": {
-    "start": "node index.js",
-    "build-backend": "tsc  --project ./tsconfig.json",
-    "start-frontend": "react-scripts start",
-    "build-frontend": "react-scripts build",
-    "test-frontend": "react-scripts test",
-    "eject-frontend": "react-scripts eject"
+    "start": "node ./build/index.js",
+    "start-backend": "npx ts-node --esm ./backend/index.ts",
+    "build-backend": "tsc  --project ./backend/tsconfig.json",
+    "start-frontend": "vite",
+    "build-frontend": "tsc --project ./src/tsconfig.json && vite build"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -20,12 +19,17 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/lowdb": "^1.0.11",
     "bootstrap": "^5.2.2",
+    "chart.js": "^4.3.0",
+    "chartjs-adapter-date-fns": "^3.0.0",
+    "chartjs-plugin-datalabels": "^2.2.0",
+    "cors": "^2.8.5",
+    "dayjs": "^1.11.8",
     "express": "^4.18.2",
     "lowdb": "^4.0.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.6.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
   "eslintConfig": {
@@ -52,7 +56,11 @@
     "@types/node": "^18.11.9",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.8",
+    "@vitejs/plugin-react": "^4.0.2",
     "global": "^4.4.0",
-    "typescript": "^4.8.4"
+    "sass": "^1.63.6",
+    "typescript": "^5.1.6",
+    "vite": "^4.4.2",
+    "vite-tsconfig-paths": "^4.2.0"
   }
 }
