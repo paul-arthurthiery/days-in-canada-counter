@@ -38,7 +38,7 @@ const App = () => {
     setNeededDaysCitizenship(neededDaysCitizenship);
   }
   useEffect(() => {
-    fetch("http://localhost:3000/canadianStatusInfo")
+    fetch("/canadianStatusInfo")
       .then((response) => response.json())
       .then((allResidencyInfo: AllResidencyInfo) => updateAllResidencyInfo(allResidencyInfo))
   }, []);
