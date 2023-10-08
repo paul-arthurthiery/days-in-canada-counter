@@ -1,25 +1,30 @@
 import { useState, useEffect } from 'react';
-import dayjs, { Dayjs } from 'dayjs';
-import minMax from 'dayjs/plugin/minMax';
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
-import { ProgressBar } from 'react-bootstrap';
-import {
-  Chart, ArcElement, Tooltip, Legend, LinearScale, PointElement, LineElement, TimeScale,
-} from 'chart.js';
-import 'chartjs-adapter-date-fns';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
-import {
-  getAccumulatedCitizenshipDays, getAccumulatedResidencyDays, getDaysInCanada, getIsInCanada,
-} from './entryExitUtils';
-import { AllResidencyInfo as AllResidencyInfoStrings } from '../backend/index';
-import { AllResidencyInfo, DaysInCanadaRecord, GraphData } from './types';
 
-import './styles.scss';
-import {
-  getAllEntriesAndExits, getCitizenshipDaysPercentOverTime, getResidencyDaysPercentOverTime,
-} from './graphUtils';
+import { Chart, ArcElement, Tooltip, Legend, LinearScale, PointElement, LineElement, TimeScale } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import dayjs from 'dayjs';
+import minMax from 'dayjs/plugin/minMax';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
+import { ProgressBar } from 'react-bootstrap';
+import 'chartjs-adapter-date-fns';
+
+import { AllResidencyInfo as AllResidencyInfoStrings } from '../backend/index';
+
 import CitizenshipGraph from './citizenshipGraph/CitizenshipGraph';
+import {
+  getAccumulatedCitizenshipDays,
+  getAccumulatedResidencyDays,
+  getDaysInCanada,
+  getIsInCanada,
+} from './entryExitUtils';
+import {
+  getAllEntriesAndExits,
+  getCitizenshipDaysPercentOverTime,
+  getResidencyDaysPercentOverTime,
+} from './graphUtils';
+import { AllResidencyInfo, DaysInCanadaRecord, GraphData } from './types';
+import './styles.scss';
 
 Chart.register(ArcElement, Tooltip, Legend, TimeScale, LinearScale, PointElement, LineElement, ChartDataLabels);
 dayjs.extend(minMax);
@@ -28,7 +33,7 @@ dayjs.extend(timezone);
 
 const DATE_FORMAT = 'YYYY-MM-DD';
 
-function App() {
+const App = () => {
   const [allResidencyInfo, setAllResidencyInfo] = useState<AllResidencyInfo | null>(null);
   const [daysInCanada, setDaysInCanada] = useState<null | DaysInCanadaRecord>(null);
   const [residencyDays, setResidencyDays] = useState(0);
@@ -36,14 +41,19 @@ function App() {
   const [isInCanada, setInCanada] = useState<boolean>(false);
   const [graphInfo, setGraphInfo] = useState({} as GraphData);
   const updateAllResidencyInfo = ({
-    entries, exits, residencyDate, neededDaysResidency, neededDaysCitizenship,
-  }: AllResidencyInfoStrings) => setAllResidencyInfo({
+    entries,
+    exits,
+    residencyDate,
+    neededDaysResidency,
+    neededDaysCitizenship,
+  }: AllResidencyInfoStrings) =>
+    setAllResidencyInfo({
       entries: entries.map((entry) => dayjs(entry).tz('America/Toronto')),
       exits: exits.map((exit) => dayjs.tz(exit).tz('America/Toronto')),
       residencyDate: dayjs(residencyDate),
       neededDaysResidency,
       neededDaysCitizenship,
-  });
+    });
   useEffect(() => {
     fetch(`${process.env.NODE_ENV === 'development' && 'http://localhost:3000'}/canadianStatusInfo`)
       .then((response) => response.json())
@@ -67,10 +77,7 @@ function App() {
         allResidencyInfo.neededDaysCitizenship,
         daysInCanada,
       ),
-      residencyDaysPercentOverTime: getResidencyDaysPercentOverTime(
-        allResidencyInfo.neededDaysResidency,
-        daysInCanada,
-      ),
+      residencyDaysPercentOverTime: getResidencyDaysPercentOverTime(allResidencyInfo.neededDaysResidency, daysInCanada),
     });
   }, [allResidencyInfo, daysInCanada]);
   // const leaveCanada = () => updateEntryExit(false);
@@ -89,9 +96,9 @@ function App() {
   //    .catch(() => setInCanada(!entry))
   // };
   return (
-    <div className="App">
+    <div className='App'>
       {(!daysInCanada || !allResidencyInfo) && <p>Loading...</p>}
-      {(!!daysInCanada && !!allResidencyInfo) && (
+      {!!daysInCanada && !!allResidencyInfo && (
         <>
           <h1>Immigration Status Day Counter</h1>
           <span>
@@ -100,9 +107,7 @@ function App() {
           </span>
           <p>
             Residency renewal Progress:
-            {residencyDays}
-            {' '}
-            days
+            {residencyDays} days
           </p>
           <ProgressBar
             animated
@@ -111,9 +116,7 @@ function App() {
           />
           <p>
             Citizenship Progress:
-            {citizenshipDays}
-            {' '}
-            days
+            {citizenshipDays} days
           </p>
           <ProgressBar
             animated
@@ -127,9 +130,7 @@ function App() {
           <p>
             <span>
               Currently
-              {!isInCanada && 'not'}
-              {' '}
-              in Canada
+              {!isInCanada && 'not'} in Canada
               {isInCanada ? '🇨🇦' : '🌴'}
             </span>
             {/* {inCanada
@@ -138,15 +139,12 @@ function App() {
             } */}
           </p>
           {!!graphInfo.allEntriesAndExits?.length && (
-            <CitizenshipGraph
-              graphData={graphInfo}
-              dateFormat={DATE_FORMAT}
-            />
+            <CitizenshipGraph graphData={graphInfo} dateFormat={DATE_FORMAT} />
           )}
         </>
       )}
     </div>
   );
-}
+};
 
 export default App;

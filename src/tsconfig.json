@@ -23,7 +23,5 @@
     "isolatedModules": true,
     "noEmit": true,
   },
-  "include": [
-    "./",
-  ],
+  "include": ["./**/*.ts*"]
 }

@@ -1,9 +1,10 @@
 import { Dayjs } from 'dayjs';
+
 import { DaysInCanadaRecord } from './types';
 
 const getPartialSumsInSpans = (spans: { amount: number }[], initialSum = 0) =>
   spans.reduce((acc: number[], { amount }) => {
-    acc.push((acc[acc.length - 1] ?? initialSum));
+    acc.push(acc[acc.length - 1] ?? initialSum);
     acc.push((acc[acc.length - 1] ?? initialSum) + amount);
     return acc;
   }, []);
@@ -11,7 +12,7 @@ const getPartialSumsInSpans = (spans: { amount: number }[], initialSum = 0) =>
 export const getResidencyDaysPercentOverTime = (neededDaysResidency: number, { past, future }: DaysInCanadaRecord) => {
   const numberOfSpansBeforeResidency = past.beforeResidency.concat(future.beforeResidency).length;
   const cumulativeResidencyDays = getPartialSumsInSpans(past.afterResidency.concat(future.afterResidency));
-  return Array((numberOfSpansBeforeResidency * 2))
+  return Array(numberOfSpansBeforeResidency * 2)
     .fill(0)
     .concat(cumulativeResidencyDays.map((amount) => Math.min((amount * 100) / neededDaysResidency, 100)));
 };

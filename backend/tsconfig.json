@@ -9,9 +9,7 @@
       "ESNext",
     ],
     "allowJs": false,
-    "outDir": "../build"
+    "outDir": "../build",
   },
-  "include": [
-    "./",
-  ],
+  "include": ["./**/*.ts"]
 }
