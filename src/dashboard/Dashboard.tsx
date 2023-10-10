@@ -6,34 +6,32 @@ import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
-import { ProgressBar } from 'react-bootstrap';
 import 'chartjs-adapter-date-fns';
 
-import { AllResidencyInfo as AllResidencyInfoStrings } from '../backend/index';
+import { AllResidencyInfo as AllResidencyInfoStrings } from '../../backend/index';
 
-import CitizenshipGraph from './citizenshipGraph/CitizenshipGraph';
+import CitizenshipGraph from '../citizenshipGraph/CitizenshipGraph';
+import { AllResidencyInfo, DaysInCanadaRecord, GraphData } from '../types';
 import {
   getAccumulatedCitizenshipDays,
   getAccumulatedResidencyDays,
   getDaysInCanada,
   getIsInCanada,
-} from './entryExitUtils';
+} from '../utils/entryExitUtils';
 import {
   getAllEntriesAndExits,
   getCitizenshipDaysPercentOverTime,
   getResidencyDaysPercentOverTime,
-} from './graphUtils';
-import { AllResidencyInfo, DaysInCanadaRecord, GraphData } from './types';
-import './styles.scss';
+} from '../utils/graphUtils';
+import ProgressSection from '../progressSection/ProgressSection';
+import { DATE_FORMAT } from '../utils/constants';
 
 Chart.register(ArcElement, Tooltip, Legend, TimeScale, LinearScale, PointElement, LineElement, ChartDataLabels);
 dayjs.extend(minMax);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-const DATE_FORMAT = 'YYYY-MM-DD';
-
-const App = () => {
+const Dashboard = () => {
   const [allResidencyInfo, setAllResidencyInfo] = useState<AllResidencyInfo | null>(null);
   const [daysInCanada, setDaysInCanada] = useState<null | DaysInCanadaRecord>(null);
   const [residencyDays, setResidencyDays] = useState(0);
@@ -96,37 +94,19 @@ const App = () => {
   //    .catch(() => setInCanada(!entry))
   // };
   return (
-    <div className='App'>
+    <div>
       {(!daysInCanada || !allResidencyInfo) && <p>Loading...</p>}
       {!!daysInCanada && !!allResidencyInfo && (
         <>
           <h1>Immigration Status Day Counter</h1>
-          <span>
-            Became a resident on
-            {dayjs(allResidencyInfo.residencyDate).format(DATE_FORMAT)}
-          </span>
-          <p>
-            Residency renewal Progress:
-            {residencyDays} days
-          </p>
-          <ProgressBar
-            animated
-            now={(residencyDays / allResidencyInfo.neededDaysResidency) * 100}
-            label={`${Math.floor((residencyDays / allResidencyInfo.neededDaysResidency) * 100)}%`}
+          <ProgressSection
+            residencyDays={residencyDays}
+            citizenshipDays={citizenshipDays}
+            neededDaysCitizenship={allResidencyInfo.neededDaysCitizenship}
+            neededDaysResidency={allResidencyInfo.neededDaysResidency}
+            residencyDate={allResidencyInfo.residencyDate}
           />
-          <p>
-            Citizenship Progress:
-            {citizenshipDays} days
-          </p>
-          <ProgressBar
-            animated
-            now={(citizenshipDays / allResidencyInfo.neededDaysCitizenship) * 100}
-            label={`${Math.floor((citizenshipDays / allResidencyInfo.neededDaysCitizenship) * 100)}%`}
-          />
-          <p>
-            Soonest date to become citizen:
-            {daysInCanada.soonestTimestampCitizen().format(DATE_FORMAT)}
-          </p>
+          <p>Soonest date to become citizen: {daysInCanada.soonestTimestampCitizen().format(DATE_FORMAT)}</p>
           <p>
             <span>
               Currently
@@ -147,4 +127,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Dashboard;

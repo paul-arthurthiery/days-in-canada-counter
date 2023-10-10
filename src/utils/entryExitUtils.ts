@@ -2,7 +2,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 
-import { AllResidencyInfo, DaysInCanadaRecord, getDefaultDaysInCanadaRecord } from './types';
+import { AllResidencyInfo, DaysInCanadaRecord, getDefaultDaysInCanadaRecord } from '../types';
 
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);

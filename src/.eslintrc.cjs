@@ -37,10 +37,10 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
     'airbnb',
-		'airbnb-typescript',
-    'prettier'
+    'airbnb-typescript',
+    'prettier',
   ],
-  plugins: ['import', 'prettier', '@typescript-eslint', 'react'],
+  plugins: ['import', 'prettier', '@typescript-eslint', 'react', 'baseui'],
   rules: {
     'prettier/prettier': [
       'error',
@@ -72,16 +72,19 @@ module.exports = {
     'import/no-named-as-default-member': 'off',
     'react-hooks/exhaustive-deps': 'off',
     'react/prop-types': 'off',
-    'react/react-in-jsx-scope': "off",
-		'implicit-arrow-linebreak': "off",
-		'react/function-component-definition': [
-			2,
-			{
-				"namedComponents": "arrow-function",
-				"unnamedComponents": "arrow-function"
-			}
-		],
-    'max-len': ['error', { code: 120 }]
+    'react/react-in-jsx-scope': 'off',
+    'implicit-arrow-linebreak': 'off',
+    'react/function-component-definition': [
+      2,
+      {
+        namedComponents: 'arrow-function',
+        unnamedComponents: 'arrow-function',
+      },
+    ],
+    'max-len': ['error', { code: 120 }],
+    'baseui/deprecated-theme-api': 'warn',
+    'baseui/deprecated-component-api': 'warn',
+    'baseui/no-deep-imports': 'warn',
   },
-  ignorePatterns: ['/*', '!/src', '!*.ts*']
+  ignorePatterns: ['/**', '!/src/**/*.ts*'],
 };

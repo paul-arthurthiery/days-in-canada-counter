@@ -1,6 +1,6 @@
 import { Dayjs } from 'dayjs';
 
-import { DaysInCanadaRecord } from './types';
+import { DaysInCanadaRecord } from '../types';
 
 const getPartialSumsInSpans = (spans: { amount: number }[], initialSum = 0) =>
   spans.reduce((acc: number[], { amount }) => {
