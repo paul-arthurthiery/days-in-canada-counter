@@ -1,17 +1,15 @@
 import { useState, useEffect } from 'react';
 
-import { Chart, ArcElement, Tooltip, Legend, LinearScale, PointElement, LineElement, TimeScale } from 'chart.js';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
-import 'chartjs-adapter-date-fns';
 
 import { AllResidencyInfo as AllResidencyInfoStrings } from '../../backend/index';
-
 import CitizenshipGraph from '../citizenshipGraph/CitizenshipGraph';
+import ProgressSection from '../progressSection/ProgressSection';
 import { AllResidencyInfo, DaysInCanadaRecord, GraphData } from '../types';
+import { DATE_FORMAT } from '../utils/constants';
 import {
   getAccumulatedCitizenshipDays,
   getAccumulatedResidencyDays,
@@ -23,10 +21,7 @@ import {
   getCitizenshipDaysPercentOverTime,
   getResidencyDaysPercentOverTime,
 } from '../utils/graphUtils';
-import ProgressSection from '../progressSection/ProgressSection';
-import { DATE_FORMAT } from '../utils/constants';
 
-Chart.register(ArcElement, Tooltip, Legend, TimeScale, LinearScale, PointElement, LineElement, ChartDataLabels);
 dayjs.extend(minMax);
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -106,12 +101,10 @@ const Dashboard = () => {
             neededDaysResidency={allResidencyInfo.neededDaysResidency}
             residencyDate={allResidencyInfo.residencyDate}
           />
-          <p>Soonest date to become citizen: {daysInCanada.soonestTimestampCitizen().format(DATE_FORMAT)}</p>
+          <p>Soonest date to ask for citizenship: {daysInCanada.soonestTimestampCitizen().format(DATE_FORMAT)}</p>
           <p>
             <span>
-              Currently
-              {!isInCanada && 'not'} in Canada
-              {isInCanada ? '🇨🇦' : '🌴'}
+              Currently {!isInCanada && 'not'} in Canada {isInCanada ? '🇨🇦' : '🌴'}
             </span>
             {/* {inCanada
               ? <Button variant="danger" onClick={leaveCanada}>I've left Canada</Button>

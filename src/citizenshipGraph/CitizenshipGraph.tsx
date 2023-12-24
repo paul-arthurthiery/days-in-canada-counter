@@ -1,6 +1,7 @@
-import { Line } from 'react-chartjs-2';
-import { GraphData } from '../types';
 import { useStyletron } from 'baseui';
+import { Line } from 'react-chartjs-2';
+
+import { GraphData } from '../types';
 import './styles.scss';
 
 interface CitizenshipGraphProps {
@@ -14,7 +15,7 @@ export default ({ graphData, dateFormat }: CitizenshipGraphProps) => {
     <div
       className={css({
         width: '100vw',
-        height: '66vh',
+        height: '60vh',
         display: 'flex',
         alignItems: 'center',
         flexDirection: 'column',
@@ -75,7 +76,6 @@ export default ({ graphData, dateFormat }: CitizenshipGraphProps) => {
               },
               grid: {
                 drawTicks: true,
-                color: theme.colors.backgroundTertiary,
                 tickWidth: 0,
               },
             },
