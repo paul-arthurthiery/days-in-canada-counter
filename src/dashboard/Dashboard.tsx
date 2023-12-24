@@ -88,6 +88,7 @@ const Dashboard = () => {
   //        allResidencyInfo.ok ? updateAllResidencyInfo(allResidencyInfo) : setInCanada(!entry))
   //    .catch(() => setInCanada(!entry))
   // };
+  console.log(graphInfo?.citizenshipDaysPercentOverTime);
   return (
     <div>
       {(!daysInCanada || !allResidencyInfo) && <p>Loading...</p>}

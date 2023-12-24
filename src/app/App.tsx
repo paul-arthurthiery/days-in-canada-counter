@@ -1,5 +1,6 @@
 import { DarkTheme, BaseProvider, styled } from 'baseui';
 import { Chart, ArcElement, Tooltip, Legend, LinearScale, PointElement, LineElement, TimeScale } from 'chart.js';
+import AnnotationPlugin from 'chartjs-plugin-annotation';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import 'chartjs-adapter-date-fns';
 import dayjs from 'dayjs';
@@ -24,7 +25,17 @@ const Centered = styled('div', {
   textAlign: 'center',
 });
 
-Chart.register(ArcElement, Tooltip, Legend, TimeScale, LinearScale, PointElement, LineElement, ChartDataLabels);
+Chart.register(
+  ArcElement,
+  Tooltip,
+  Legend,
+  TimeScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  ChartDataLabels,
+  AnnotationPlugin,
+);
 
 const App = () => (
   <StyletronProvider value={engine}>

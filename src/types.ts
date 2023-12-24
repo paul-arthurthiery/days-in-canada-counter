@@ -22,7 +22,7 @@ export interface DaysInCanadaRecord {
   future: {
     beforeResidency: SpanInCanada[];
     afterResidency: SpanInCanada[];
-  }
+  };
   soonestTimestampCitizen: () => Dayjs;
 }
 
@@ -36,13 +36,17 @@ export const getDefaultDaysInCanadaRecord: () => DaysInCanadaRecord = () => ({
     afterResidency: [],
   },
   soonestTimestampCitizen() {
-    return this.future.afterResidency.at(-1)?.exit
-      ?? (() => { throw new Error('cannot become resident'); })();
+    return (
+      this.future.afterResidency.at(-1)?.exit ??
+      (() => {
+        throw new Error('cannot become resident');
+      })()
+    );
   },
 });
 
 export interface GraphData {
-  allEntriesAndExits: Dayjs[],
-  citizenshipDaysPercentOverTime: number[],
-  residencyDaysPercentOverTime: number[]
+  allEntriesAndExits: Dayjs[];
+  citizenshipDaysPercentOverTime: number[];
+  residencyDaysPercentOverTime: number[];
 }

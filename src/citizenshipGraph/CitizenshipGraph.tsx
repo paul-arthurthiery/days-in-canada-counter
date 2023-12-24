@@ -1,7 +1,9 @@
 import { useStyletron } from 'baseui';
+import dayjs from 'dayjs';
 import { Line } from 'react-chartjs-2';
 
 import { GraphData } from '../types';
+
 import './styles.scss';
 
 interface CitizenshipGraphProps {
@@ -60,6 +62,17 @@ export default ({ graphData, dateFormat }: CitizenshipGraphProps) => {
             legend: {
               labels: {
                 color: theme.colors.contentPrimary,
+              },
+            },
+            annotation: {
+              annotations: {
+                line1: {
+                  type: 'line',
+                  scaleID: 'x',
+                  value: dayjs().valueOf(),
+                  borderColor: 'rgb(255, 99, 132)',
+                  borderWidth: 2,
+                },
               },
             },
           },
