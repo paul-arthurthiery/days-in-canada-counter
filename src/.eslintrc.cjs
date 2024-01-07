@@ -86,6 +86,7 @@ module.exports = {
     'baseui/deprecated-component-api': 'warn',
     'baseui/no-deep-imports': 'warn',
     'react/no-unstable-nested-components': 'off',
+    'react/require-default-props': 'off',
   },
   ignorePatterns: ['*.cjs'],
 };

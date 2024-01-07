@@ -8,8 +8,8 @@ import utc from 'dayjs/plugin/utc';
 import { Client as Styletron } from 'styletron-engine-atomic';
 import { Provider as StyletronProvider } from 'styletron-react';
 
-import Dashboard from '../dashboard/Dashboard';
 import './styles.scss';
+import Main from '../main/Main';
 
 dayjs.extend(utc);
 
@@ -23,6 +23,7 @@ const Centered = styled('div', {
   color: DarkTheme.colors.contentPrimary,
   fontFamily: DarkTheme.typography.font100.fontFamily,
   textAlign: 'center',
+  flexDirection: 'column',
 });
 
 Chart.register(
@@ -41,7 +42,7 @@ const App = () => (
   <StyletronProvider value={engine}>
     <BaseProvider theme={DarkTheme}>
       <Centered>
-        <Dashboard />
+        <Main />
       </Centered>
     </BaseProvider>
   </StyletronProvider>

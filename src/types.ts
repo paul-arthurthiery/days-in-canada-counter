@@ -39,7 +39,8 @@ export const getDefaultDaysInCanadaRecord: () => DaysInCanadaRecord = () => ({
     return (
       this.future.afterResidency.at(-1)?.exit ??
       (() => {
-        throw new Error('cannot become resident');
+        console.log(this.future);
+        throw new Error('cannot become citizen');
       })()
     );
   },

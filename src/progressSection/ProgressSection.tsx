@@ -20,6 +20,7 @@ interface PopoverBlockProps {
 
 const FlexDiv = styled('div', {
   display: 'flex',
+  flexDirection: 'row',
   justifyContent: 'space-evenly',
 });
 
