@@ -7,7 +7,7 @@ import { DATE_FORMAT } from './constants';
 
 export const getAllResidencyInfo = async (): Promise<AllResidencyInfo> => {
   const response = await fetch(
-    `${process.env.NODE_ENV === 'development' && 'http://localhost:3000'}/canadianStatusInfo`,
+    `${process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : ''}/canadianStatusInfo`,
   );
   const { entries, exits, residencyDate, neededDaysResidency, neededDaysCitizenship }: AllResidencyInfoStrings =
     await response.json();
