@@ -1,55 +1,42 @@
-import { useState, useEffect, FunctionComponent } from 'react';
+import { FunctionComponent, useContext } from 'react';
 
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 
-import CitizenshipGraph from '../citizenshipGraph/CitizenshipGraph';
-import ProgressSection from '../progressSection/ProgressSection';
-import { AllResidencyInfo, DaysInCanadaRecord, GraphData } from '../types';
-import { DATE_FORMAT } from '../utils/constants';
+import { ResidencyDatesContext } from '../../context/ResidencyDatesContext';
+import { DATE_FORMAT } from '../../utils/constants';
 import {
   getAccumulatedCitizenshipDays,
   getAccumulatedResidencyDays,
   getDaysInCanada,
   getIsInCanada,
-} from '../utils/entryExitUtils';
+} from '../../utils/entryExitUtils';
 import {
   getAllEntriesAndExits,
   getCitizenshipDaysPercentOverTime,
   getResidencyDaysPercentOverTime,
-} from '../utils/graphUtils';
+} from '../../utils/graphUtils';
+import { CitizenshipGraph } from '../citizenshipGraph/CitizenshipGraph';
+import { ProgressSection } from '../progressSection/ProgressSection';
 
 dayjs.extend(minMax);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-const Dashboard: FunctionComponent<{ allResidencyInfo: AllResidencyInfo }> = ({ allResidencyInfo }) => {
-  const [daysInCanada, setDaysInCanada] = useState<null | DaysInCanadaRecord>(null);
-  const [residencyDays, setResidencyDays] = useState(0);
-  const [citizenshipDays, setCitizenshipDays] = useState(0);
-  const [isInCanada, setInCanada] = useState<boolean>(false);
-  const [graphInfo, setGraphInfo] = useState({} as GraphData);
+export const Dashboard: FunctionComponent = () => {
+  const allResidencyInfo = useContext(ResidencyDatesContext);
+  const daysInCanada = getDaysInCanada(allResidencyInfo);
+  const isInCanada = getIsInCanada(daysInCanada);
+  const residencyDays = Math.floor(getAccumulatedResidencyDays(daysInCanada));
+  const citizenshipDays = Math.floor(getAccumulatedCitizenshipDays(daysInCanada));
   const { neededDaysCitizenship, neededDaysResidency, residencyDate } = allResidencyInfo;
-  useEffect(() => {
-    if (allResidencyInfo === null) return;
-    setDaysInCanada(getDaysInCanada(allResidencyInfo));
-  }, [allResidencyInfo]);
-  useEffect(() => {
-    if (daysInCanada === null) return;
-    setInCanada(getIsInCanada(daysInCanada)); // TODO: how to calculate this ?
-    setResidencyDays(Math.floor(getAccumulatedResidencyDays(daysInCanada)));
-    setCitizenshipDays(Math.floor(getAccumulatedCitizenshipDays(daysInCanada)));
-  }, [daysInCanada]);
-  useEffect(() => {
-    if (allResidencyInfo === null || daysInCanada === null) return;
-    setGraphInfo({
-      allEntriesAndExits: getAllEntriesAndExits(daysInCanada),
-      citizenshipDaysPercentOverTime: getCitizenshipDaysPercentOverTime(neededDaysCitizenship, daysInCanada),
-      residencyDaysPercentOverTime: getResidencyDaysPercentOverTime(neededDaysResidency, daysInCanada),
-    });
-  }, [allResidencyInfo, daysInCanada]);
+  const graphInfo = {
+    allEntriesAndExits: getAllEntriesAndExits(daysInCanada),
+    citizenshipDaysPercentOverTime: getCitizenshipDaysPercentOverTime(neededDaysCitizenship, daysInCanada),
+    residencyDaysPercentOverTime: getResidencyDaysPercentOverTime(neededDaysResidency, daysInCanada),
+  };
   // const leaveCanada = () => updateEntryExit(false);
   // const enterCanada = () => updateEntryExit(true);
   // const updateEntryExit = (entry: boolean) => {
@@ -85,9 +72,7 @@ const Dashboard: FunctionComponent<{ allResidencyInfo: AllResidencyInfo }> = ({ 
               : <Button variant="primary" onClick={enterCanada}>I've returned to Canada</Button>
             } */}
       </p>
-      {!!graphInfo.allEntriesAndExits?.length && <CitizenshipGraph graphData={graphInfo} dateFormat={DATE_FORMAT} />}
+      {!!graphInfo.allEntriesAndExits?.length && <CitizenshipGraph graphData={graphInfo} />}
     </>
   );
 };
-
-export default Dashboard;

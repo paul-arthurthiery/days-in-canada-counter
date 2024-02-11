@@ -9,7 +9,7 @@ import { Client as Styletron } from 'styletron-engine-atomic';
 import { Provider as StyletronProvider } from 'styletron-react';
 
 import './styles.scss';
-import Main from '../main/Main';
+import { Main } from '../main/Main';
 
 dayjs.extend(utc);
 

@@ -4,7 +4,7 @@ import { StatefulPopover, TRIGGER_TYPE } from 'baseui/popover';
 import { ProgressBarRounded } from 'baseui/progress-bar';
 import dayjs, { Dayjs } from 'dayjs';
 
-import { DATE_FORMAT } from '../utils/constants';
+import { DATE_FORMAT } from '../../utils/constants';
 
 interface ProgressSectionProps {
   residencyDays: number;
@@ -38,7 +38,7 @@ const StyledPopoverBlock = ({ children }: PopoverBlockProps) => {
   );
 };
 
-export default ({
+export const ProgressSection = ({
   residencyDays,
   citizenshipDays,
   neededDaysResidency,

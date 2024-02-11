@@ -68,6 +68,7 @@ module.exports = {
         },
       },
     ],
+    'import/prefer-default-export': 'off',
     'import/no-unresolved': 'error',
     'import/no-named-as-default-member': 'off',
     'react-hooks/exhaustive-deps': 'off',

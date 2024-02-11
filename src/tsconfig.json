@@ -5,14 +5,8 @@
     "moduleResolution": "node",
     "jsx": "react-jsx",
     "esModuleInterop": false,
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "types": [
-      "vite/client",
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "types": ["vite/client", "node"],
     "allowJs": false,
     "skipLibCheck": false,
     "allowSyntheticDefaultImports": true,
@@ -21,7 +15,7 @@
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
+    "noEmit": true
   },
   "include": ["./**/*.ts*"]
 }

@@ -2,16 +2,15 @@ import { useStyletron } from 'baseui';
 import dayjs from 'dayjs';
 import { Line } from 'react-chartjs-2';
 
-import { GraphData } from '../types';
-
+import { GraphData } from '../../types';
 import './styles.scss';
+import { DATE_FORMAT } from '../../utils/constants';
 
 interface CitizenshipGraphProps {
   graphData: GraphData;
-  dateFormat: string;
 }
 
-export default ({ graphData, dateFormat }: CitizenshipGraphProps) => {
+export const CitizenshipGraph = ({ graphData }: CitizenshipGraphProps) => {
   const [css, theme] = useStyletron();
   return (
     <div
@@ -25,7 +24,7 @@ export default ({ graphData, dateFormat }: CitizenshipGraphProps) => {
     >
       <Line
         data={{
-          labels: graphData.allEntriesAndExits.map((date) => date.format(dateFormat)),
+          labels: graphData.allEntriesAndExits.map((date) => date.format(DATE_FORMAT)),
           datasets: [
             {
               label: 'Citizenship days',
@@ -48,7 +47,7 @@ export default ({ graphData, dateFormat }: CitizenshipGraphProps) => {
             datalabels: {
               formatter: (_, { dataIndex, dataset }) => {
                 if (dataIndex === dataset.data.length - 1) {
-                  return graphData.allEntriesAndExits.at(-1)?.format(dateFormat);
+                  return graphData.allEntriesAndExits.at(-1)?.format(DATE_FORMAT);
                 }
                 return '';
               },

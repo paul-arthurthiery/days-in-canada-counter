@@ -9,13 +9,17 @@ const port = 3000;
 const RESIDENCY_DAYS = 365 * 2;
 const CITIZENSHIP_DAYS = 365 * 3;
 
-export interface EntryExitDB { entries: string[], exits: string[], residencyDate: string }
+export interface EntryExitDB {
+  entries: string[];
+  exits: string[];
+  residencyDate: string;
+}
 export interface AllResidencyInfo {
-  entries: string[]
-  exits: string[]
-  residencyDate: string
-  neededDaysResidency: number
-  neededDaysCitizenship: number
+  entries: string[];
+  exits: string[];
+  residencyDate: string;
+  neededDaysResidency: number;
+  neededDaysCitizenship: number;
 }
 
 // Configure lowdb to write to JSONFile
@@ -69,6 +73,25 @@ app.post('/exit', async (req: Request<unknown, unknown, { date: string }>, res) 
 app.get('/canadianStatusInfo', async (_, res) => {
   const { entries, exits, residencyDate } = await loadEntriesAndExits();
   res.send({
+    residencyDate,
+    entries,
+    exits,
+    neededDaysResidency: RESIDENCY_DAYS,
+    neededDaysCitizenship: CITIZENSHIP_DAYS,
+  } as AllResidencyInfo);
+});
+
+app.post('/entriesAndExits', async (req: Request<unknown, unknown, { entries: string[]; exits: string[] }>, res) => {
+  await db.read();
+  db.data = {
+    ...db.data,
+    entries: req.body.entries,
+    exits: req.body.exits,
+  };
+  await db.write();
+  const { entries, exits, residencyDate } = await loadEntriesAndExits();
+  res.send({
+    ok: true,
     residencyDate,
     entries,
     exits,
