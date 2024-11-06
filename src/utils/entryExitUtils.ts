@@ -100,7 +100,7 @@ const generateDaysInCanadaRecord = (
     const isEntryBeforeToday = entry.isSameOrBefore(dayjs());
     const isExitBeforeToday = dayjs().isAfter(exit);
     const isResidencyBeforeToday = residencyDate.isSameOrBefore(dayjs());
-    const missingCitizenshipDays = () => neededDaysCitizenship - getAllCitizenshipDays(acc);
+    const missingCitizenshipDays = (updatedAcc?: DaysInCanadaRecord) => neededDaysCitizenship - getAllCitizenshipDays(updatedAcc ?? acc);
     if (!exit && !isLastEntry) {
       throw new Error('misformed entries and exits');
     }
@@ -111,17 +111,19 @@ const generateDaysInCanadaRecord = (
       return addFutureDaysAfterResidency(acc, entry, entry.add(missingCitizenshipDays(), 'd'));
     }
     if (!exit && !isEntryBeforeToday && isEntryBeforeResidency) {
+      const updatedAcc = addFutureDaysBeforeResidency(acc, entry, residencyDate);
       return addFutureDaysAfterResidency(
-        addFutureDaysBeforeResidency(acc, entry, residencyDate),
+        updatedAcc,
         residencyDate,
-        entry.add(missingCitizenshipDays(), 'd'),
+        entry.add(missingCitizenshipDays(updatedAcc), 'd'),
       );
     }
     if (!exit && isEntryBeforeResidency && isResidencyBeforeToday) {
+      const updatedAcc = addPastDaysAfterResidency(addPastDaysBeforeResidency(acc, entry, residencyDate), residencyDate, dayjs());
       return addFutureDaysAfterResidency(
-        addPastDaysAfterResidency(addPastDaysBeforeResidency(acc, entry, residencyDate), residencyDate, dayjs()),
+        updatedAcc,
         dayjs(),
-        dayjs().add(missingCitizenshipDays(), 'd'),
+        dayjs().add(missingCitizenshipDays(updatedAcc), 'd'),
       );
     }
     if (isEntryBeforeToday && isExitBeforeToday && isEntryBeforeResidency && !isExitBeforeResidency) {
@@ -141,10 +143,11 @@ const generateDaysInCanadaRecord = (
       );
     }
     if (!exit && isEntryBeforeToday && !isEntryBeforeResidency) {
+      const updatedAcc = addPastDaysAfterResidency(acc, entry, dayjs());
       return addFutureDaysAfterResidency(
-        addPastDaysAfterResidency(acc, entry, dayjs()),
+        updatedAcc,
         dayjs(),
-        dayjs().add(missingCitizenshipDays(), 'd'),
+        dayjs().add(missingCitizenshipDays(updatedAcc), 'd'),
       );
     }
     if (isEntryBeforeToday && isExitBeforeToday && isEntryBeforeResidency && isExitBeforeResidency) {
