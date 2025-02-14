@@ -36,6 +36,7 @@ export const Dashboard: FunctionComponent = () => {
     allEntriesAndExits: getAllEntriesAndExits(daysInCanada),
     citizenshipDaysPercentOverTime: getCitizenshipDaysPercentOverTime(neededDaysCitizenship, daysInCanada),
     residencyDaysPercentOverTime: getResidencyDaysPercentOverTime(neededDaysResidency, daysInCanada),
+    neededDaysCitizenship,
   };
   // const leaveCanada = () => updateEntryExit(false);
   // const enterCanada = () => updateEntryExit(true);

@@ -45,7 +45,7 @@ export const CitizenshipGraph = ({ graphData }: CitizenshipGraphProps) => {
         options={{
           plugins: {
             datalabels: {
-              formatter: (_, { dataIndex, dataset }) => {
+              formatter: (value, { dataIndex, dataset }) => {
                 if (dataIndex === dataset.data.length - 1) {
                   return graphData.allEntriesAndExits.at(-1)?.format(DATE_FORMAT);
                 }
@@ -71,6 +71,14 @@ export const CitizenshipGraph = ({ graphData }: CitizenshipGraphProps) => {
                   value: dayjs().valueOf(),
                   borderColor: 'rgb(255, 99, 132)',
                   borderWidth: 2,
+                },
+              },
+            },
+            tooltip: {
+              callbacks: {
+                label(context) {
+                  // return the number of citizenship days instead of the percentage
+                  return `${context.dataset.label}: ${(context.parsed.y * graphData.neededDaysCitizenship) / 100}`;
                 },
               },
             },

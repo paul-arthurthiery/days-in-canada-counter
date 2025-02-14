@@ -50,4 +50,5 @@ export interface GraphData {
   allEntriesAndExits: Dayjs[];
   citizenshipDaysPercentOverTime: number[];
   residencyDaysPercentOverTime: number[];
+  neededDaysCitizenship: number;
 }
